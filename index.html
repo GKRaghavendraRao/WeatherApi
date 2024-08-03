@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style1.css">
+    <style>
+        .weather-icon {
+            max-width: 50px;
+            max-height: 50px;
+        }
+    </style>
+</head>
+<body ng-controller="WeatherController as weatherCtrl">
+    <div class="jumbotron container-fluid mt-2 text-center p-2" style="background-color:#404040; color: white;">
+        <h1><strong>Weather Dashboard</strong></h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 bg-light">
+                <h4 class="pt-1"><strong>Search for a City:</strong></h4>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="search-city" aria-label="City Search" aria-describedby="search-button" ng-model="weatherCtrl.searchCity">
+                    <div class="input-group-append">
+                        <button class="btn bg-primary text-light" id="search-button" ng-click="weatherCtrl.displayWeather()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <!-- Section for search city history -->
+                <button class="btn btn-primary" type="button" id="clear-history" ng-click="weatherCtrl.clearHistory()">Clear history</button>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="city in weatherCtrl.searchHistory" ng-click="weatherCtrl.invokePastSearch(city)">{{ city }}</li>
+                </ul>
+            </div>
+            <div class="col-sm-8">
+                <div class="row ml-2 border border-dark rounded">
+                    <div class="col-sm-12" id="current-weather">
+                        <h3 class="city-name mb-1 mt-2 bolder" id="current-city">{{ weatherCtrl.currentWeather.name }}</h3>
+                        <img ng-if="weatherCtrl.currentWeather.iconurl" ng-src="{{ weatherCtrl.currentWeather.iconurl }}" alt="Weather icon" class="weather-icon">
+                        <p>Temperature: {{ weatherCtrl.currentWeather.temperature }}</p>
+                        <p>Humidity: {{ weatherCtrl.currentWeather.humidity }}</p>
+                        <p>Wind Speed: {{ weatherCtrl.currentWeather.windSpeed }}</p>
+                        <p>UV index: {{ weatherCtrl.currentWeather.uvIndex }}</p>
+                    </div>
+                </div>
+                <div class="col-sm-12" id="future-weather">
+                    <h3>5-Day Forecast:</h3>
+                    <div class="row text-light">
+                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" ng-repeat="day in weatherCtrl.futureWeather">
+                            <p>{{ day.date }}</p>
+                            <img ng-src="{{ weatherCtrl.currentWeather.iconurl }}" alt="Weather icon" class="weather-icon">
+                            <p>Temp: {{ day.temperature }}</p>
+                            <p>Humidity: {{ day.humidity }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="mt-5 p-3 text-center bg-light">
+        Weather Dashboard &copy 2024
+    </footer>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
